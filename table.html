@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Table Page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="jumbotron text-center">
+            <h1>
+                <span class="glyphicon glyphicon-fire"></span> Hot Restaurant</h1>
+            <hr>
+            <h2>Current Reservations and Waiting List</h2>
+            <br>
+            <a href="/reservation">
+                <button id="add-btn" type="button" class="btn btn-danger btn-lg">
+                    <span class="glyphicon glyphicon-plus"></span>Make Reservation</button>
+            </a>
+            <a href="/">
+                <span>
+                    <button id="home-btn" type="button" class="btn btn-white btn-lg">
+                        <span class="glyphicon glyphicon-home"></span>
+                    </button>
+                </span>
+            </a>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <strong>Character Statistics</strong>
+                        </h3>
+                    </div>
+                    <div id="wells" class="panel-body">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">Waiting list</h4>
+                    </div>
+                    <div class="panel-body" id="waitlistsection"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+<script>
+
+    $.get("/api/table", function (data) {
+        for (var i = 0; i < 5; i++) {
+            var html =
+                "<div class='well'> <h2><span class='label label-primary'>" + (i + 1) + "</span> <span class='user'>" + data[i].uniqueId + "</span></h2> </div>"
+
+            $("#wells").append(html);
+        }
+    });
+    $.get("/api/waitlist", function (data) {
+        if (data) {
+            for (var i = 0; i < data.length; i++) {
+                var html =
+                    "<div class='well'> <h2><span class='label label-primary'>" + (i + 1) + "</span> <span class='user'>" + data[i].uniqueId + "</span></h2></div>"
+
+                $("#waitlistsection").append(html);
+            }
+        }
+    });
+
+</script>
+
+</html>
